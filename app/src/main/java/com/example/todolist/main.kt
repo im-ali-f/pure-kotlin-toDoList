@@ -15,11 +15,26 @@ class ConsoleView(var accessList:Array<String>){
         }
         //now waits for user choose
         print("choosen Menu =")
-        var choosenMenu= readln().toInt()
-        println(choosenMenu)
+        var chosenMenu= readln().toInt()
+        chosenMenuNavigator(chosenMenu,accessMap)
+    }
+    fun chosenMenuNavigator(chosenMenuInt: Int,accessMap:HashMap<Int,String>){
+        var chosenMenuStr:String?=null
+        for(access in accessMap){
+            if(chosenMenuInt == access.key) chosenMenuStr=access.value
+        }
+        if (chosenMenuStr == "loginSignup"){
+            var loginSignupObj=LoginSignupClass()
+            loginSignupObj.show()
+        }
     }
 }
 
+class LoginSignupClass{
+    fun show(){
+
+    }
+}
 fun main(){
 
     val starterObj=ConsoleView(accessList)
