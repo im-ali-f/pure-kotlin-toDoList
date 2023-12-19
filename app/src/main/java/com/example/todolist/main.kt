@@ -1,10 +1,11 @@
 package com.example.todolist
 
-var accessList=arrayOf("loginSignup","taskMenu")
-class ConsoleView(var accessList:Array<String>){
+var accessList= mutableListOf("loginSignup","taskMenu")
+class ConsoleView(var accessList:List<String>,var username :String?=null){
     var accessMap= HashMap<Int,String>()
     var listCounter=0
     fun menu(){
+        println(username)
         println("choose section")
         //now check our access + put access to access map
         for(access in accessList){
@@ -31,7 +32,7 @@ class ConsoleView(var accessList:Array<String>){
 }
 
 class LoginSignupClass{
-    var loggedInUser :Int? = null
+    var loggedInUser :String? = null
     fun show(){
         print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
         println("login/signup Section !")
@@ -47,6 +48,7 @@ class LoginSignupClass{
 
     }
     fun chosenLS(chosen:Int){
+
         var userList= mapOf<String,String>(
             "ali" to "333",
             "mmd" to "4444",
@@ -64,7 +66,9 @@ class LoginSignupClass{
                 if (userList.containsKey(username)) {
                     if (userList[username] == password) {
                         print("logged in !")
-                        //inja access jadid bedam
+                        loggedInUser=username
+                        accessList.clear()
+                        accessList.add("taskMenu")
                         break
                     } else {
                         println("wrong password")
@@ -82,12 +86,15 @@ class LoginSignupClass{
             var password=readln()
         }
 
-        //inja bargarim menu
+        //hala bargardim menu
+        print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
+        val backToMenu=ConsoleView(accessList, loggedInUser)
+        backToMenu.menu()
     }
 
 }
 fun main(){
 
-    val starterObj=ConsoleView(accessList)
+    val starterObj=ConsoleView(accessList,null)
     starterObj.menu()
 }
