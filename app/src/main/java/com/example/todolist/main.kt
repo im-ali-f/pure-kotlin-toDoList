@@ -50,7 +50,7 @@ class TaskManagerClass(var username: String?){
     var taskList= HashMap<String,List<String>>()
     fun findTaskList(){
         username= "ali" // in pak she
-        val filePath = "app/src/main/java/com/example/todolist/aliTasks.txt"
+        val filePath = "app/src/main/java/com/example/todolist/$username.txt"
         File(filePath).forEachLine{line->
             var TTDTArray=line.split("=")
             var TDTList= listOf<String>(TTDTArray[1],TTDTArray[2],TTDTArray[3],)
@@ -59,8 +59,9 @@ class TaskManagerClass(var username: String?){
         }
     }
     fun show(){
+        print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
         findTaskList()
-        println("$username you are at task manager(crud) \nchose a menu")
+        println("$username you are at task manager(crud) choose a menu !")
         println("1-task list")
         println("2-create task")
         println("3-update task")
@@ -74,7 +75,9 @@ class TaskManagerClass(var username: String?){
             if(chosenMenuInt in rangeMenu)break
         }
         if(chosenMenuInt == 5){
-            //inja bayad bargardim menu
+            print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
+            var backToMenu= ConsoleView(accessList,username)
+            backToMenu.menu()
         }
         choseCRUD(chosenMenuInt)
     }
