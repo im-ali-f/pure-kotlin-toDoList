@@ -1,11 +1,14 @@
 package com.example.todolist
 
-var accessList= mutableListOf("loginSignup","taskMenu")
+//var accessList= mutableListOf("loginSignup","taskMenu")
+var accessList= mutableListOf("loginSignup")
+
 class ConsoleView(var accessList:List<String>,var username :String?=null){
     var accessMap= HashMap<Int,String>()
     var listCounter=0
     fun menu(){
-        println(username)
+        var chosenMenu=0
+        var menuRange=false
         println("choose section")
         //now check our access + put access to access map
         for(access in accessList){
@@ -14,9 +17,13 @@ class ConsoleView(var accessList:List<String>,var username :String?=null){
             println("$listCounter - $access")
 
         }
+        while(! menuRange){
         //now waits for user choose
         print("choosen Menu =")
-        var chosenMenu= readln().toInt()
+        chosenMenu= readln().toInt()
+        var menuRangeRange=1..listCounter
+        if(chosenMenu in menuRangeRange)break
+        }
         chosenMenuNavigator(chosenMenu,accessMap)
     }
     fun chosenMenuNavigator(chosenMenuInt: Int,accessMap:HashMap<Int,String>){
@@ -28,9 +35,18 @@ class ConsoleView(var accessList:List<String>,var username :String?=null){
             var loginSignupObj=LoginSignupClass()
             loginSignupObj.show()
         }
+        if (chosenMenuStr == "taskMenu"){
+            var taskManagerObj=TaskManagerClass(username)
+            taskManagerObj.show()
+        }
     }
 }
+class TaskManagerClass(var username: String?){
 
+    fun show(){
+        println("$username you are at task manager class")
+    }
+}
 class LoginSignupClass{
     var loggedInUser :String? = null
     fun show(){
@@ -94,7 +110,6 @@ class LoginSignupClass{
 
 }
 fun main(){
-
     val starterObj=ConsoleView(accessList,null)
     starterObj.menu()
 }
