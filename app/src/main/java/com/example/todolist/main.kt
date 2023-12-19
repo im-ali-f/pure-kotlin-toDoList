@@ -8,12 +8,13 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.io.BufferedWriter
 import java.io.FileWriter
-
+import java.nio.file.Files
+import java.nio.file.Paths
 
 
 //var accessList= mutableListOf("loginSignup","taskMenu")
-//var accessList= mutableListOf("loginSignup")
-var accessList= mutableListOf("taskMenu")
+var accessList= mutableListOf("loginSignup")
+//var accessList= mutableListOf("taskMenu")
 
 class ConsoleView(var accessList:List<String>,var username :String?=null){
     var accessMap= HashMap<Int,String>()
@@ -391,12 +392,6 @@ class TaskManagerClass(var username: String?){
     }
 }
 
-
-
-
-
-
-
 class LoginSignupClass{
     var loggedInUser :String? = null
     fun show(){
@@ -413,15 +408,18 @@ class LoginSignupClass{
         chosenLS(chosenMenuIntLS)
 
     }
+    @TargetApi(Build.VERSION_CODES.O)
     fun chosenLS(chosen:Int){
-
-        var userList= mapOf<String,String>(
-            "ali" to "333",
-            "mmd" to "4444",
-            "reza" to "55555",
-
-            )
+        //inja bayad list membrea + pass begire az file
+        var userList=HashMap<String,String>()
+        val lines = Files.readAllLines(Paths.get("app/src/main/java/com/example/todolist/user.txt"))
+        for (line in lines){
+            var userPassArray=line.split("=")
+            userList.put(userPassArray[0],userPassArray[1])
+        }
         print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
+
+
         if(chosen == 1){
             println("logging in ...")
             while(true) {
