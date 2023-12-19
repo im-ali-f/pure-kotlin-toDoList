@@ -448,6 +448,38 @@ class LoginSignupClass{
             var username=readln()
             print("password =")
             var password=readln()
+
+            var userExist=false
+            for(user in userList){
+                if(username == user.key){
+                    userExist=true
+                }
+            }
+
+            if(!userExist)userList.put(username,password)
+            else println("user exist")
+            while(true){
+                print("enter any key to leave=")
+                var breaker= readln()
+                if(breaker !="")break
+            }
+
+            var content=""
+            var firstTime=true
+            for(user in userList){
+                if(firstTime){
+                    content="${user.key}=${user.value}"
+                    firstTime=false
+                }
+                else{
+                    content+="\n"+"${user.key}=${user.value}"
+                }
+            }
+            var filePath="app/src/main/java/com/example/todolist/user.txt"
+            File(filePath).bufferedWriter().use { writer ->
+                writer.write(content)
+                println("Content has been written to the file.")
+            }
         }
 
         //hala bargardim menu
