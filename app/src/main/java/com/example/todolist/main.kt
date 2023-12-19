@@ -6,6 +6,8 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.io.BufferedWriter
+import java.io.FileWriter
 
 
 
@@ -28,11 +30,11 @@ class ConsoleView(var accessList:List<String>,var username :String?=null){
 
         }
         while(! menuRange){
-        //waits for user choose
-        print("choosen Menu =")
-        chosenMenu= readln().toInt()
-        var menuRangeRange=1..listCounter
-        if(chosenMenu in menuRangeRange)break
+            //waits for user choose
+            print("choosen Menu =")
+            chosenMenu= readln().toInt()
+            var menuRangeRange=1..listCounter
+            if(chosenMenu in menuRangeRange)break
         }
         chosenMenuNavigator(chosenMenu,accessMap)
     }
@@ -94,7 +96,7 @@ class TaskManagerClass(var username: String?){
         if(chosenMenuInt == 1){
             for (task in taskList){
                 println("--------------${task.key}--------------")
-                println("text=${task.value[0]}")
+                println("text = ${task.value[0]}")
                 println("date = ${task.value[1]} \ntime = ${task.value[2]}")
             }
             print("press any key to back to TaskManager")
@@ -108,6 +110,8 @@ class TaskManagerClass(var username: String?){
             var text=""
             var date=""
             var time=""
+            var parsedTime:LocalTime
+            var parsedDate:LocalDate
             while(true){
                 print("enter Title=")
                 title= readln()
@@ -125,7 +129,7 @@ class TaskManagerClass(var username: String?){
                     //thanks chatgpt for this part
                     try {
                         val pattern = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-                        val parsedDate = LocalDate.parse(date, pattern)
+                        parsedDate = LocalDate.parse(date, pattern)
                         break
                     }
                     catch (e: DateTimeParseException) {
@@ -135,21 +139,38 @@ class TaskManagerClass(var username: String?){
             }
             while(true){
                 print("enter Time(format -> hh:mm:ss)=")
-                var time=readln()
+                time=readln()
                 if(!time.isEmpty()) {
                     //thanks chatgpt for this part too
                     try{
-                    val pattern = DateTimeFormatter.ofPattern("HH:mm:ss")
-                    val parsedTime = LocalTime.parse(time,pattern)
-                    break
+                        val pattern = DateTimeFormatter.ofPattern("HH:mm:ss")
+                        parsedTime = LocalTime.parse(time,pattern)
+                        break
                     }
                     catch (e:DateTimeParseException){
                         println("format ya time dorost vared nashode ast !")
                     }
                 }
             }
-
-
+            var TDTList= listOf<String>(text,date,time)
+            taskList.put(title,TDTList)
+            var content:String=""
+            var firstTime=true
+            println(taskList)
+            for(task in taskList){
+                if(firstTime){
+                    content="${task.key}=${task.value[0]}=${task.value[1]}=${task.value[2]}"
+                    firstTime=false}
+                else
+                    content=content+"\n"+"${task.key}=${task.value[0]}=${task.value[1]}=${task.value[2]}"
+            }
+            var filePath="app/src/main/java/com/example/todolist/$username.txt"
+            println("11111111111111111")
+            File(filePath).bufferedWriter().use { writer ->
+                writer.write(content)
+                println("Content has been written to the file.")
+            }
+            show()
         }
 
     }
@@ -184,7 +205,7 @@ class LoginSignupClass{
             "mmd" to "4444",
             "reza" to "55555",
 
-        )
+            )
         print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
         if(chosen == 1){
             println("logging in ...")
