@@ -165,7 +165,6 @@ class TaskManagerClass(var username: String?){
                     content=content+"\n"+"${task.key}=${task.value[0]}=${task.value[1]}=${task.value[2]}"
             }
             var filePath="app/src/main/java/com/example/todolist/$username.txt"
-            println("11111111111111111")
             File(filePath).bufferedWriter().use { writer ->
                 writer.write(content)
                 println("Content has been written to the file.")
@@ -190,25 +189,32 @@ class TaskManagerClass(var username: String?){
             var findTaskCounter=0
 
             var newKey=""
+            var oldKey=""
             var newText=""
             var newDate=""
             var newTime=""
-
+            var anyChange=false
             for(task in taskList){
                 findTaskCounter+=1
                 println("searching for task ...")
                 if (findTaskCounter==chosen){
                     println("task founded !")
+                    println("--------------${task.key}--------------")
+                    println("text = ${task.value[0]}")
+                    println("date = ${task.value[1]} \ntime = ${task.value[2]}")
                     while(true){
                         print("change title (y/n) ? =")
                         var titleChose= readln()
                         if (titleChose == "n"){
                             newKey=task.key
+                            oldKey=task.key
                             break
                         }
                         else if (titleChose == "y"){
                             print("new title =")
                             newKey= readln()
+                            oldKey=task.key
+                            anyChange=true
                             break
                         }
                     }
@@ -222,6 +228,7 @@ class TaskManagerClass(var username: String?){
                         else if (textChose == "y"){
                             print("new text =")
                             newText= readln()
+                            anyChange=true
                             break
                         }
                     }
@@ -234,8 +241,26 @@ class TaskManagerClass(var username: String?){
                             break
                         }
                         else if (dateChose == "y"){
-                            print("new date format (dd-mm-yyyy) =")
+                            /*print("new date format (dd-mm-yyyy) =")
                             newDate= readln()
+                            anyChange=true
+                            break*/
+                            while(true){
+                                print("enter Date(format -> dd-mm-yyyy) =")
+                                newDate=readln()
+                                if(!newDate.isEmpty()){
+                                    //thanks chatgpt for this part
+                                    try {
+                                        val pattern = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                                        var parsedDate = LocalDate.parse(newDate, pattern)
+                                        break
+                                    }
+                                    catch (e: DateTimeParseException) {
+                                        println("format ya date dorost vared nashode ast !")
+                                    }
+                                }
+                            }
+                            anyChange=true
                             break
                         }
                     }
@@ -243,20 +268,60 @@ class TaskManagerClass(var username: String?){
                         print("change Time (y/n) ? =")
                         var timeChose= readln()
                         if (timeChose == "n"){
-                            newTime=task.value[1]
+                            newTime=task.value[2]
                             break
                         }
                         else if (timeChose == "y"){
-                            print("new Time format (hh:mm:ss) =")
+                            /* print("new Time format (hh:mm:ss) =")
                             newTime= readln()
+                            anyChange=true
+                            break*/
+                            while(true){
+                                print("enter Time(format -> hh:mm:ss)=")
+                                newTime=readln()
+                                if(!newTime.isEmpty()) {
+                                    //thanks chatgpt for this part too
+                                    try{
+                                        val pattern = DateTimeFormatter.ofPattern("HH:mm:ss")
+                                        var parsedTime = LocalTime.parse(newTime,pattern)
+                                        break
+                                    }
+                                    catch (e:DateTimeParseException){
+                                        println("format ya time dorost vared nashode ast !")
+                                    }
+                                }
+                            }
+                            anyChange=true
                             break
                         }
                     }
-
+                break
                 }
 
             }
-
+            //hala bayad hazf o jadidaro bezarim age taghir dashtim
+            if(anyChange) {
+                taskList.remove(oldKey)
+                var TDTList = listOf<String>(newText, newDate, newTime)
+                taskList.put(newKey, TDTList)
+                println("task updated")
+                // dobare bayad update she filemon
+                var firstTime=true
+                var content=""
+                for(task in taskList){
+                    if(firstTime){
+                        content="${task.key}=${task.value[0]}=${task.value[1]}=${task.value[2]}"
+                        firstTime=false}
+                    else
+                        content=content+"\n"+"${task.key}=${task.value[0]}=${task.value[1]}=${task.value[2]}"
+                }
+                var filePath="app/src/main/java/com/example/todolist/$username.txt"
+                println("11111111111111111")
+                File(filePath).bufferedWriter().use { writer ->
+                    writer.write(content)
+                    println("Content has been written to the file.")
+                }
+            }
 
             print("press any key to back to TaskManager")
             readlnOrNull()
