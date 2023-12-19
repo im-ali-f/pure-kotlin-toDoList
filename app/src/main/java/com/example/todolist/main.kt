@@ -87,10 +87,10 @@ class TaskManagerClass(var username: String?){
             var backToMenu= ConsoleView(accessList,username)
             backToMenu.menu()
         }
-        choseCRUD(chosenMenuInt)
+        chosenCRUD(chosenMenuInt)
     }
     @TargetApi(Build.VERSION_CODES.O)
-    fun choseCRUD(chosenMenuInt: Int){
+    fun chosenCRUD(chosenMenuInt: Int){
         print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
         //READ
         if(chosenMenuInt == 1){
@@ -170,6 +170,97 @@ class TaskManagerClass(var username: String?){
                 writer.write(content)
                 println("Content has been written to the file.")
             }
+            show()
+        }
+
+        if(chosenMenuInt == 3){
+            var counter=1
+            println("choose a task by its number")
+            for (task in taskList){
+                println("$counter => ${task.key}")
+                counter+=1
+            }
+            var chooseRange=1..counter
+            var chosen=0
+            while(true){
+                print("which one ? =")
+                chosen=readln().toInt()
+                if(chosen in chooseRange)break
+            }
+            var findTaskCounter=0
+
+            var newKey=""
+            var newText=""
+            var newDate=""
+            var newTime=""
+
+            for(task in taskList){
+                findTaskCounter+=1
+                println("searching for task ...")
+                if (findTaskCounter==chosen){
+                    println("task founded !")
+                    while(true){
+                        print("change title (y/n) ? =")
+                        var titleChose= readln()
+                        if (titleChose == "n"){
+                            newKey=task.key
+                            break
+                        }
+                        else if (titleChose == "y"){
+                            print("new title =")
+                            newKey= readln()
+                            break
+                        }
+                    }
+                    while(true){
+                        print("change text (y/n) ? =")
+                        var textChose= readln()
+                        if (textChose == "n"){
+                            newText=task.value[0]
+                            break
+                        }
+                        else if (textChose == "y"){
+                            print("new text =")
+                            newText= readln()
+                            break
+                        }
+                    }
+
+                    while(true){
+                        print("change Date (y/n) ? =")
+                        var dateChose= readln()
+                        if (dateChose == "n"){
+                            newDate=task.value[1]
+                            break
+                        }
+                        else if (dateChose == "y"){
+                            print("new date format (dd-mm-yyyy) =")
+                            newDate= readln()
+                            break
+                        }
+                    }
+                    while(true){
+                        print("change Time (y/n) ? =")
+                        var timeChose= readln()
+                        if (timeChose == "n"){
+                            newTime=task.value[1]
+                            break
+                        }
+                        else if (timeChose == "y"){
+                            print("new Time format (hh:mm:ss) =")
+                            newTime= readln()
+                            break
+                        }
+                    }
+
+                }
+
+            }
+
+
+            print("press any key to back to TaskManager")
+            readlnOrNull()
+            print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
             show()
         }
 
