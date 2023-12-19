@@ -1,7 +1,11 @@
 package com.example.todolist
+import java.io.File
+
+
 
 //var accessList= mutableListOf("loginSignup","taskMenu")
-var accessList= mutableListOf("loginSignup")
+//var accessList= mutableListOf("loginSignup")
+var accessList= mutableListOf("taskMenu")
 
 class ConsoleView(var accessList:List<String>,var username :String?=null){
     var accessMap= HashMap<Int,String>()
@@ -41,12 +45,52 @@ class ConsoleView(var accessList:List<String>,var username :String?=null){
         }
     }
 }
-class TaskManagerClass(var username: String?){
 
+class TaskManagerClass(var username: String?){
+    var taskList= HashMap<String,List<String>>()
+    fun findTaskList(){
+        username= "ali" // in pak she
+        val filePath = "app/src/main/java/com/example/todolist/aliTasks.txt"
+        File(filePath).forEachLine{line->
+            var TTDTArray=line.split("=")
+            var TDTList= listOf<String>(TTDTArray[1],TTDTArray[2],TTDTArray[3],)
+            taskList.put(TTDTArray[0],TDTList)
+            println(taskList)
+        }
+    }
     fun show(){
-        println("$username you are at task manager class")
+        findTaskList()
+        println("$username you are at task manager(crud) \nchose a menu")
+        println("1-task list")
+        println("2-create task")
+        println("3-update task")
+        println("4-remove task")
+        println("5-back to Menu")
+        var rangeMenu=1..5
+        var chosenMenuInt=0
+        while(true){
+            print("choose menu=")
+            chosenMenuInt = readln().toInt()
+            if(chosenMenuInt in rangeMenu)break
+        }
+        if(chosenMenuInt == 5){
+            //inja bayad bargardim menu
+        }
+        choseCRUD(chosenMenuInt)
+    }
+    fun choseCRUD(chosenMenuInt: Int){
+        if(chosenMenuInt == 1){
+
+        }
     }
 }
+
+
+
+
+
+
+
 class LoginSignupClass{
     var loggedInUser :String? = null
     fun show(){
