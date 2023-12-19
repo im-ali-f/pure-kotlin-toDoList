@@ -31,9 +31,60 @@ class ConsoleView(var accessList:Array<String>){
 }
 
 class LoginSignupClass{
+    var loggedInUser :Int? = null
     fun show(){
+        print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
+        println("login/signup Section !")
+        var menuRange=false
+        var chosenMenuIntLS=0
+        while(! menuRange){
+            println("1-login \n2-signup")
+            print("your choice =")
+            chosenMenuIntLS= readln().toInt()
+            if(chosenMenuIntLS == 1 || chosenMenuIntLS ==2)menuRange=true
+        }
+        chosenLS(chosenMenuIntLS)
 
     }
+    fun chosenLS(chosen:Int){
+        var userList= mapOf<String,String>(
+            "ali" to "333",
+            "mmd" to "4444",
+            "reza" to "55555",
+
+        )
+        print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
+        if(chosen == 1){
+            println("logging in ...")
+            while(true) {
+                print("username =")
+                var username = readln()
+                print("\npassword =")
+                var password = readln()
+                if (userList.containsKey(username)) {
+                    if (userList[username] == password) {
+                        print("logged in !")
+                        //inja access jadid bedam
+                        break
+                    } else {
+                        println("wrong password")
+                    }
+                } else {
+                    println("wrong username")
+                }
+            }
+        }
+        if(chosen == 2){
+            println("siggnin up ...")
+            print("username =")
+            var username=readln()
+            print("password =")
+            var password=readln()
+        }
+
+        //inja bargarim menu
+    }
+
 }
 fun main(){
 
