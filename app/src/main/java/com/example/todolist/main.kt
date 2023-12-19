@@ -316,7 +316,6 @@ class TaskManagerClass(var username: String?){
                         content=content+"\n"+"${task.key}=${task.value[0]}=${task.value[1]}=${task.value[2]}"
                 }
                 var filePath="app/src/main/java/com/example/todolist/$username.txt"
-                println("11111111111111111")
                 File(filePath).bufferedWriter().use { writer ->
                     writer.write(content)
                     println("Content has been written to the file.")
@@ -328,7 +327,67 @@ class TaskManagerClass(var username: String?){
             print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
             show()
         }
+        if(chosenMenuInt == 4){
+            var counter=1
+            println("choose a task by its number")
+            for (task in taskList){
+                println("$counter => ${task.key}")
+                counter+=1
+            }
+            var chooseRange=1..counter
+            var chosen=0
+            var sure=false
+            while(true){
+                print("which one ? =")
+                chosen=readln().toInt()
+                if(chosen in chooseRange){
+                    while(true){
+                        print("are you sure (y/n) =")
+                        var chosenSure=readln()
+                        if(chosenSure == "y"){
+                            sure = true
+                            break
+                        }
+                        else{break}
+                    }
+                    break
+                }
+            }
+            var findTaskCounter=0
+            var foundedkey=""
+            for (task in taskList){
+                findTaskCounter+=1
+                if(findTaskCounter == chosen){
+                    foundedkey=task.key
+                    break
+                }
+            }
+            if(sure) {
+                taskList.remove(foundedkey)
+                // dobare bayad update she filemon
+                var firstTime=true
+                var content=""
+                for(task in taskList){
+                    if(firstTime){
+                        content="${task.key}=${task.value[0]}=${task.value[1]}=${task.value[2]}"
+                        firstTime=false}
+                    else
+                        content=content+"\n"+"${task.key}=${task.value[0]}=${task.value[1]}=${task.value[2]}"
+                }
+                var filePath="app/src/main/java/com/example/todolist/$username.txt"
+                File(filePath).bufferedWriter().use { writer ->
+                    writer.write(content)
+                    println("Content has been written to the file.")
+                }
+            }
 
+
+
+            print("press any key to back to TaskManager")
+            readlnOrNull()
+            print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
+            show()
+        }
     }
 }
 
