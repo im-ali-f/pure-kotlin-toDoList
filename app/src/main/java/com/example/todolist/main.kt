@@ -1,5 +1,11 @@
 package com.example.todolist
+import android.annotation.TargetApi
+import android.os.Build
 import java.io.File
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 
 
@@ -81,8 +87,10 @@ class TaskManagerClass(var username: String?){
         }
         choseCRUD(chosenMenuInt)
     }
+    @TargetApi(Build.VERSION_CODES.O)
     fun choseCRUD(chosenMenuInt: Int){
         print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
+        //READ
         if(chosenMenuInt == 1){
             for (task in taskList){
                 println("--------------${task.key}--------------")
@@ -94,6 +102,56 @@ class TaskManagerClass(var username: String?){
             print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
             show()
         }
+        //CREATE
+        if(chosenMenuInt ==2){
+            var title=""
+            var text=""
+            var date=""
+            var time=""
+            while(true){
+                print("enter Title=")
+                title= readln()
+                if(!title.isEmpty()) break
+            }
+            while(true){
+                print("enter Text=")
+                text=readln()
+                if(!text.isEmpty()) break
+            }
+            while(true){
+                print("enter Date(format -> dd-mm-yyyy) =")
+                date=readln()
+                if(!date.isEmpty()){
+                    //thanks chatgpt for this part
+                    try {
+                        val pattern = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                        val parsedDate = LocalDate.parse(date, pattern)
+                        break
+                    }
+                    catch (e: DateTimeParseException) {
+                        println("format ya date dorost vared nashode ast !")
+                    }
+                }
+            }
+            while(true){
+                print("enter Time(format -> hh:mm:ss)=")
+                var time=readln()
+                if(!time.isEmpty()) {
+                    //thanks chatgpt for this part too
+                    try{
+                    val pattern = DateTimeFormatter.ofPattern("HH:mm:ss")
+                    val parsedTime = LocalTime.parse(time,pattern)
+                    break
+                    }
+                    catch (e:DateTimeParseException){
+                        println("format ya time dorost vared nashode ast !")
+                    }
+                }
+            }
+
+
+        }
+
     }
 }
 
