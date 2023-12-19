@@ -10,7 +10,8 @@ import java.io.BufferedWriter
 import java.io.FileWriter
 import java.nio.file.Files
 import java.nio.file.Paths
-
+import java.nio.file.StandardOpenOption
+import java.nio.file.Path
 
 //var accessList= mutableListOf("loginSignup","taskMenu")
 var accessList= mutableListOf("loginSignup")
@@ -480,6 +481,10 @@ class LoginSignupClass{
                 writer.write(content)
                 println("Content has been written to the file.")
             }
+            //inja bayad barash ye file bsazim ta betone save kone tosh
+            val filePathForFile = "app/src/main/java/com/example/todolist/$username.txt"
+            val file = File(filePathForFile)
+            file.createNewFile()
         }
 
         //hala bargardim menu
