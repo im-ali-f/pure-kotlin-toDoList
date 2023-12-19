@@ -22,7 +22,7 @@ class ConsoleView(var accessList:List<String>,var username :String?=null){
 
         }
         while(! menuRange){
-        //now waits for user choose
+        //waits for user choose
         print("choosen Menu =")
         chosenMenu= readln().toInt()
         var menuRangeRange=1..listCounter
@@ -49,13 +49,13 @@ class ConsoleView(var accessList:List<String>,var username :String?=null){
 class TaskManagerClass(var username: String?){
     var taskList= HashMap<String,List<String>>()
     fun findTaskList(){
+        taskList.clear()
         username= "ali" // in pak she
         val filePath = "app/src/main/java/com/example/todolist/$username.txt"
         File(filePath).forEachLine{line->
             var TTDTArray=line.split("=")
             var TDTList= listOf<String>(TTDTArray[1],TTDTArray[2],TTDTArray[3],)
             taskList.put(TTDTArray[0],TDTList)
-            println(taskList)
         }
     }
     fun show(){
@@ -82,8 +82,17 @@ class TaskManagerClass(var username: String?){
         choseCRUD(chosenMenuInt)
     }
     fun choseCRUD(chosenMenuInt: Int){
+        print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
         if(chosenMenuInt == 1){
-
+            for (task in taskList){
+                println("--------------${task.key}--------------")
+                println("text=${task.value[0]}")
+                println("date = ${task.value[1]} \ntime = ${task.value[2]}")
+            }
+            print("press any key to back to TaskManager")
+            readlnOrNull()
+            print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
+            show()
         }
     }
 }
