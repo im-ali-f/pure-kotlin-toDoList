@@ -14,8 +14,8 @@ import java.nio.file.StandardOpenOption
 import java.nio.file.Path
 
 //var accessList= mutableListOf("loginSignup","taskMenu")
-var accessList= mutableListOf("loginSignup")
-//var accessList= mutableListOf("taskMenu")
+//var accessList= mutableListOf("loginSignup")
+var accessList= mutableListOf("taskMenu")
 
 class ConsoleView(var accessList:List<String>,var username :String?=null){
     var accessMap= HashMap<Int,String>()
@@ -33,10 +33,13 @@ class ConsoleView(var accessList:List<String>,var username :String?=null){
         }
         while(! menuRange){
             //waits for user choose
-            print("choosen Menu =")
-            chosenMenu= readln().toInt()
-            var menuRangeRange=1..listCounter
-            if(chosenMenu in menuRangeRange)break
+            try {
+                print("choosen Menu =")
+                chosenMenu = readln().toInt()
+                var menuRangeRange = 1..listCounter
+                if (chosenMenu in menuRangeRange) break
+            }
+            catch (e:NumberFormatException){}
         }
         chosenMenuNavigator(chosenMenu,accessMap)
     }
@@ -80,9 +83,12 @@ class TaskManagerClass(var username: String?){
         var rangeMenu=1..5
         var chosenMenuInt=0
         while(true){
-            print("choose menu=")
-            chosenMenuInt = readln().toInt()
-            if(chosenMenuInt in rangeMenu)break
+            try{
+                print("choose menu=")
+                chosenMenuInt = readln().toInt()
+                if(chosenMenuInt in rangeMenu)break
+            }
+            catch (e:NumberFormatException){}
         }
         if(chosenMenuInt == 5){
             print("\n\n\n\n\n\n\n\n\n")//insted of clear :)
@@ -184,9 +190,13 @@ class TaskManagerClass(var username: String?){
             var chooseRange=1..counter
             var chosen=0
             while(true){
-                print("which one ? =")
-                chosen=readln().toInt()
-                if(chosen in chooseRange)break
+                try {
+                    print("which one ? =")
+                    chosen = readln().toInt()
+                    if (chosen in chooseRange) break
+                }
+                catch (e:NumberFormatException){}
+
             }
             var findTaskCounter=0
 
@@ -340,20 +350,26 @@ class TaskManagerClass(var username: String?){
             var chosen=0
             var sure=false
             while(true){
-                print("which one ? =")
-                chosen=readln().toInt()
-                if(chosen in chooseRange){
-                    while(true){
-                        print("are you sure (y/n) =")
-                        var chosenSure=readln()
-                        if(chosenSure == "y"){
-                            sure = true
-                            break
+                try {
+                    print("which one ? =")
+                    chosen = readln().toInt()
+
+                    if (chosen in chooseRange) {
+                        while (true) {
+                            print("are you sure (y/n) =")
+                            var chosenSure = readln()
+                            if (chosenSure == "y") {
+                                sure = true
+                                break
+                            } else {
+                                break
+                            }
                         }
-                        else{break}
+                        break
                     }
-                    break
                 }
+                catch (e:NumberFormatException){}
+
             }
             var findTaskCounter=0
             var foundedkey=""
@@ -402,9 +418,13 @@ class LoginSignupClass{
         var chosenMenuIntLS=0
         while(! menuRange){
             println("1-login \n2-signup")
-            print("your choice =")
-            chosenMenuIntLS= readln().toInt()
-            if(chosenMenuIntLS == 1 || chosenMenuIntLS ==2)menuRange=true
+            try {
+                print("your choice =")
+                chosenMenuIntLS = readln().toInt()
+                if(chosenMenuIntLS == 1 || chosenMenuIntLS ==2)menuRange=true
+            }
+            catch (e:NumberFormatException){}
+
         }
         chosenLS(chosenMenuIntLS)
 
