@@ -12,6 +12,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 import java.nio.file.Path
+import kotlin.concurrent.thread
 
 //var accessList= mutableListOf("loginSignup","taskMenu")
 //var accessList= mutableListOf("loginSignup")
@@ -20,28 +21,61 @@ var accessList= mutableListOf("taskMenu")
 class ConsoleView(var accessList:List<String>,var username :String?=null){
     var accessMap= HashMap<Int,String>()
     var listCounter=0
-    fun menu(){
-        var chosenMenu=0
-        var menuRange=false
-        println("choose section")
-        //now check our access + put access to access map
-        for(access in accessList){
-            listCounter+=1
-            accessMap.put(listCounter,access)
-            println("$listCounter - $access")
+    val notification= Thread{
+        while(true){
+            Thread.sleep(3000)
+            println("\n\n\n\n\n\n\n")
+            println("at notifi !_______________")
+            println("at notifi !_______________")
+            println("at notifi !_______________")
+            println("at notifi !_______________")
+            println("at notifi !_______________")
+            println("at notifi !_______________")
+            println("at notifi !_______________")
 
-        }
-        while(! menuRange){
-            //waits for user choose
-            try {
-                print("choosen Menu =")
-                chosenMenu = readln().toInt()
-                var menuRangeRange = 1..listCounter
-                if (chosenMenu in menuRangeRange) break
+            println("choose section")
+            //now check our access + put access to access map
+            for (access in accessList) {
+                println("$listCounter - $access")
             }
-            catch (e:NumberFormatException){}
+            print("choosen Menu =")
         }
-        chosenMenuNavigator(chosenMenu,accessMap)
+    }
+    fun menu(){
+            try{notification.start()}
+            catch (e: IllegalThreadStateException){
+            }
+
+            var chosenMenu = 0
+            var menuRange = false
+            println("choose section")
+            //now check our access + put access to access map
+            for (access in accessList) {
+                listCounter += 1
+                accessMap.put(listCounter, access)
+                println("$listCounter - $access")
+
+            }
+            while (!menuRange) {
+                //waits for user choose
+                try {
+                    print("choosen Menu =")
+                    chosenMenu = readln().toInt()
+                    var menuRangeRange = 1..listCounter
+                    if (chosenMenu in menuRangeRange) break
+                } catch (e: NumberFormatException) {
+                }
+            }
+
+            try{notification.stop()
+            println("i stopped it")
+            }
+            catch (e:IllegalThreadStateException){
+                println("erroorooro")
+            }
+            chosenMenuNavigator(chosenMenu, accessMap)
+
+
     }
     fun chosenMenuNavigator(chosenMenuInt: Int,accessMap:HashMap<Int,String>){
         var chosenMenuStr:String?=null
@@ -307,7 +341,7 @@ class TaskManagerClass(var username: String?){
                             break
                         }
                     }
-                break
+                    break
                 }
 
             }
