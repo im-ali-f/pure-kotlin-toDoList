@@ -17,28 +17,63 @@ import kotlin.concurrent.thread
 //var accessList= mutableListOf("loginSignup","taskMenu")
 //var accessList= mutableListOf("loginSignup")
 var accessList= mutableListOf("taskMenu")
-
-class ConsoleView(var accessList:List<String>,var username :String?=null){
+var taskList= HashMap<String,List<String>>()
+var showList= HashMap<String,MutableList<String>>()
+@TargetApi(Build.VERSION_CODES.O)
+class ConsoleView(var accessList:List<String>, var username :String?=null){
     var accessMap= HashMap<Int,String>()
     var listCounter=0
     val notification= Thread{
+        var findTasksObj=TaskManagerClass(username)
+        findTasksObj.findTaskList()
+        var showChoose=false
         while(true){
-            Thread.sleep(3000)
-            println("\n\n\n\n\n\n\n")
-            println("at notifi !_______________")
-            println("at notifi !_______________")
-            println("at notifi !_______________")
-            println("at notifi !_______________")
-            println("at notifi !_______________")
-            println("at notifi !_______________")
-            println("at notifi !_______________")
+            Thread.sleep(400)
+            var localDate=LocalDate.now()
+            var localTime=LocalTime.now()
+            val formatterDate = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+            val formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss")
+            var formattedDate=localDate.format(formatterDate)
+            var formattedTime=localTime.format(formatterTime)
+            for (task in taskList){
+                var taskDate=task.value[1]
+                var taskTime=task.value[2]
+                if( taskDate==formattedDate && taskTime==formattedTime){
+                    //inja yani vaght ye task shode
+                        if(!showList.containsKey(task.key)) {
+                            var toShowList = mutableListOf<String>(task.value[0], task.value[1], task.value[2], "no")
+                            showList.put(task.key, toShowList)}
+                            for (show in showList) {
+                                if(show.value[3] == "no") {
 
-            println("choose section")
-            //now check our access + put access to access map
-            for (access in accessList) {
-                println("$listCounter - $access")
+                                    println("\n----------notification !------------")
+                                    println("its time to do ${show.key}")
+                                    println("date = ${show.value[1]} time=${show.value[2]}\n")
+                                    show.value[3]="yes"
+                                    showChoose=true
+
+                                }
+
+                            }
+
+
+                }
             }
-            print("choosen Menu =")
+
+            if(showChoose){
+                showChoose=false
+                println("1111111111111")
+                println("choose section")
+                //now check our access + put access to access map
+                for (access in accessList) {
+                    println("222222222")
+
+                    println("$listCounter - $access")
+                }
+                println("33333333333333")
+                print("choosen Menu =")
+
+            }
         }
     }
     fun menu(){
@@ -94,7 +129,7 @@ class ConsoleView(var accessList:List<String>,var username :String?=null){
 }
 
 class TaskManagerClass(var username: String?){
-    var taskList= HashMap<String,List<String>>()
+
     fun findTaskList(){
         taskList.clear()
         username= "ali" // in pak she
