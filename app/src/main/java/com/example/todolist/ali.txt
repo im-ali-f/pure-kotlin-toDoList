@@ -1,9 +1,6 @@
 khkd=fkwhf=27-03-1381=11:11:11
 fikwhf=eikfhjkefgjkwgfjkwfgjkfww=12-12-1222=12:12:12
 hehe notdone=compeleted=11-11-1111=11:11:11
-task1=aaaaaaaaaaaaaaaa=11/11/11=11:11:11
-task2=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb=12/12/12=11:11:11
-task3=ccccccccccccccccccccccccccccccc=12/12/12=11:11:11
 testtttttt=abcd=22-12-2023=14:41:50
 testtttttt2=abcd=22-12-2023=14:41:50
 testtttttt3=abcd=22-12-2023=14:41:50
